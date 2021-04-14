@@ -1,5 +1,5 @@
 import { bindKeys, initKeys, Sprite, Vector } from 'kontra';
-import { IGameObject } from './IGameObject';
+import { IGameObject } from './iGameObject';
 import { InputHandler } from './inputHandler';
 import { KeyState } from './keyState';
 
