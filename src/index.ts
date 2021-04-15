@@ -1,5 +1,5 @@
-import { Game } from './game';
 import './style.scss';
+import { Game } from './game';
 
 function init() {
   const bodyEl: HTMLElement = document.getElementsByTagName('body')[0];
