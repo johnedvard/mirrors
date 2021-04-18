@@ -10,9 +10,17 @@ function init() {
   new Game(gameEl).start();
   const nearConnection = new NearConnection();
   nearConnection.initContract().then(async (res) => {
-    const greet = await (<any>nearConnection.contract).getGreeting({
-      accountId: nearConnection.accountId,
-    });
+    if (!nearConnection.walletConnection.isSignedIn()) {
+      // TODO (johnedvard add Login button)
+    } else {
+      // get and set new greeting
+      // const greet = await (<any>nearConnection.contract).getGreeting({
+      //   accountId: nearConnection.accountId,
+      // });
+      // const newGreeting = await (<any>nearConnection.contract).setGreeting({
+      //   message: 'test',
+      // });
+    }
   });
 }
 
