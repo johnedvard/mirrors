@@ -1,4 +1,8 @@
 
-
-/node_modules/**/*
+## front end
+/node_modules
 /dist/*
+
+## back end
+/out
+/contract/node_modules

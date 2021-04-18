@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 module.exports = {
   entry: './src/index.ts',
@@ -10,7 +11,6 @@ module.exports = {
       {
         test: /\.tsx?$/,
         use: 'ts-loader',
-        exclude: /node_modules/,
       },
       {
         test: /\.s[ac]ss$/i,
@@ -26,9 +26,15 @@ module.exports = {
       },
     ],
   },
-  plugins: [new HtmlWebpackPlugin({ title: 'Mirrors' })],
+  plugins: [
+    new HtmlWebpackPlugin({ title: 'Mirrors' }),
+    new NodePolyfillPlugin(),
+  ],
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.sass'],
+    fallback: {
+      path: require.resolve('path-browserify'),
+    },
   },
   output: {
     filename: 'bundle.js',
