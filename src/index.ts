@@ -13,13 +13,11 @@ function init() {
     if (!nearConnection.walletConnection.isSignedIn()) {
       // TODO (johnedvard add Login button)
     } else {
-      // get and set new greeting
-      // const greet = await (<any>nearConnection.contract).getGreeting({
-      //   accountId: nearConnection.accountId,
-      // });
-      // const newGreeting = await (<any>nearConnection.contract).setGreeting({
-      //   message: 'test',
-      // });
+      const scores = await nearConnection.getScores('level4');
+      const score = await nearConnection.getScore('level4');
+      console.log('scores', scores);
+      console.log('score', score);
+      nearConnection.setScore('level4', '999', 'asdsdf');
     }
   });
 }

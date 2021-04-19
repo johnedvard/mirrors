@@ -12,9 +12,13 @@
  *
  */
 
-import { Context, logging, storage } from 'near-sdk-as';
+import { Context, logging, storage, AVLTree } from 'near-sdk-as';
 
-const DEFAULT_MESSAGE = 'Hello';
+const scoreMaps: AVLTree<string, AVLTree<string, string>> = new AVLTree<
+  string,
+  AVLTree<string, string>
+>('levels');
+const DEFAULT_MESSAGE = 'halla';
 
 // Exported functions will be part of the public interface for your smart contract.
 // Feel free to extract behavior to non-exported functions!
@@ -37,4 +41,37 @@ export function setGreeting(message: string): void {
   );
 
   storage.set(account_id, message);
+}
+
+/**
+ * need to strongifyJson before calling this
+ * @param levelName
+ * @param accountId
+ * @param json {score: string, name: string}
+ */
+export function setScore(levelName: string, json: string): void {
+  const accountId = Context.sender;
+  if (!scoreMaps.has(levelName)) {
+    const newMap = new AVLTree<string, string>(levelName);
+    newMap.set(accountId, json);
+    scoreMaps.set(levelName, newMap);
+  } else {
+    const existingMap = scoreMaps.get(levelName);
+    if (existingMap) existingMap.set(accountId, json);
+  }
+}
+
+export function getScores(levelName: string): AVLTree<string, string> | null {
+  if (scoreMaps.has(levelName)) {
+    return scoreMaps.get(levelName);
+  }
+  return null;
+}
+
+export function getScore(levelName: string, accountId: string): string | null {
+  if (scoreMaps.has(levelName)) {
+    const score = scoreMaps.get(levelName);
+    if (score) return score.get(accountId, 'nothing found');
+  }
+  return null;
 }
