@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/index.ts',
@@ -29,6 +30,14 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({ title: 'Mirrors' }),
     new NodePolyfillPlugin(),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'src/assets'),
+          to: path.resolve(__dirname, 'dist/assets'),
+        },
+      ],
+    }),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.sass'],

@@ -7,24 +7,24 @@ export class Mirror implements IGameObject {
   mainSprite: Sprite;
   closestObject: { go: IGameObject; pos: Vector; dist: number };
   currPos: Vector;
+  image = new Image();
   constructor(private game: Game) {
     initPointer();
+    this.image.src = './assets/mirrorCrystal.png';
+    this.image.onload = () => {
+      this.mainSprite.image = this.image;
+    };
     this.mainSprite = new Sprite({
       x: 100,
       y: 100,
       radius: 8,
       width: 16,
       height: 16,
-      render: function () {
-        this.context.fillStyle = '#ffffff';
-        this.context.beginPath();
-        this.context.arc(8, 8, this.radius, 0, 2 * Math.PI);
-        this.context.fill();
-      },
       onUp: () => {
         this.mirrorObject(this.closestObject);
       },
     });
+
     this.currPos = new Vector(
       this.mainSprite.x + this.mainSprite.width / 2,
       this.mainSprite.y + this.mainSprite.height / 2
