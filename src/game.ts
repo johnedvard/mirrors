@@ -1,5 +1,5 @@
-import { init, GameLoop, emit } from 'kontra';
-import { circleCollision, rectCollision } from './gameUtils';
+import { init, GameLoop } from 'kontra';
+import { Block } from './block';
 import { IGameObject } from './iGameObject';
 
 import { Mirror } from './mirror';
@@ -15,7 +15,8 @@ export class Game {
     init(canvas);
     const player = new Player(this);
     this.gameObjects.push(player);
-    this.gameObjects.push(new Mirror());
+    this.gameObjects.push(new Mirror(this));
+    this.gameObjects.push(new Block());
     this.loop = GameLoop({
       update: (dt: number) => {
         this.gameObjects.forEach((go) => go.update());
