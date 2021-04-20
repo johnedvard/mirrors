@@ -1,15 +1,17 @@
-import { GameObject, initPointer, Sprite, track, Vector } from 'kontra';
+import { emit, GameObject, Sprite, track, Vector } from 'kontra';
 import { Game } from './game';
+import { getFuturePos, rectCollision } from './gameUtils';
 
 import { IGameObject } from './iGameObject';
 
 export class Mirror implements IGameObject {
   mainSprite: Sprite;
+  isMovable = false;
   closestObject: { go: IGameObject; pos: Vector; dist: number };
   currPos: Vector;
   image = new Image();
   constructor(private game: Game) {
-    initPointer();
+    // TODO copy zelda crystal as mirror
     this.image.src = './assets/mirrorCrystal.png';
     this.image.onload = () => {
       this.mainSprite.image = this.image;
@@ -20,6 +22,7 @@ export class Mirror implements IGameObject {
       radius: 8,
       width: 16,
       height: 16,
+      anchor: { x: 0.5, y: 0.5 },
       onUp: () => {
         this.mirrorObject(this.closestObject);
       },
@@ -37,8 +40,23 @@ export class Mirror implements IGameObject {
   }
 
   update() {
+    this.handleMirrorCollision();
     this.getClosestObject();
     this.mainSprite.update();
+  }
+
+  handleMirrorCollision() {
+    this.game.gameObjects.forEach((other: IGameObject) => {
+      if (other.isMovable) {
+        const futurePos = getFuturePos(
+          other.mainSprite,
+          new Vector(other.mainSprite.dx, other.mainSprite.dy)
+        );
+        if (rectCollision(this.mainSprite, futurePos)) {
+          emit('collision', this, other);
+        }
+      }
+    });
   }
 
   getClosestObject() {
@@ -61,6 +79,7 @@ export class Mirror implements IGameObject {
       this.closestObject = currClosestObject;
     }
   }
+
   mirrorObject(obj: { go: IGameObject; pos: Vector; dist: number }) {
     if (obj) {
       let scale = 1;

@@ -1,4 +1,4 @@
-import { init, GameLoop } from 'kontra';
+import { init, GameLoop, initPointer, initKeys } from 'kontra';
 import { Block } from './block';
 import { IGameObject } from './iGameObject';
 
@@ -13,16 +13,18 @@ export class Game {
     canvas.width = 400;
     canvas.height = 400;
     init(canvas);
+    initPointer();
+    initKeys();
     const player = new Player(this);
     this.gameObjects.push(player);
     this.gameObjects.push(new Mirror(this));
     this.gameObjects.push(new Block());
     this.loop = GameLoop({
       update: (dt: number) => {
-        this.gameObjects.forEach((go) => go.update());
+        this.gameObjects.forEach((go) => go.update(dt));
       },
       render: (dt: number) => {
-        this.gameObjects.forEach((go) => go.render());
+        this.gameObjects.forEach((go) => go.render(dt));
       },
     });
   }
