@@ -1,0 +1,33 @@
+{
+  "description": "Everything can be mirrored, except walls",
+  "playerPos": [{ "x": 240, "y": 200 }],
+  "mirrorPos": [{ "x": 200, "y": 200 }],
+  "cratePos": [{ "x": 350, "y": 200 }],
+  "goalPos": [{ "x": 50, "y": 200 }],
+  "walls": [
+    {
+      "width": 16,
+      "height": 16,
+      "repeatX": 60,
+      "repeatY": 1,
+      "x": 0,
+      "y": 226
+    },
+    {
+      "width": 16,
+      "height": 16,
+      "repeatX": 60,
+      "repeatY": 1,
+      "x": 0,
+      "y": 175
+    },
+    {
+      "width": 16,
+      "height": 16,
+      "repeatX": 1,
+      "repeatY": 1,
+      "x": 80,
+      "y": 200
+    }
+  ]
+}

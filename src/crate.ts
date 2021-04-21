@@ -2,19 +2,19 @@ import { on, Sprite } from 'kontra';
 import { IGameObject } from './iGameObject';
 import { Mirror } from './mirror';
 
-export class Block implements IGameObject {
+export class Crate implements IGameObject {
   mainSprite: Sprite;
   isMovable = true;
   friction = 4;
-  constructor() {
+  constructor(x: number, y: number) {
     let image = new Image();
     image.src = 'assets/crate.png';
     image.onload = () => {
       this.mainSprite.image = image;
     };
     this.mainSprite = Sprite({
-      x: 100,
-      y: 20,
+      x: x,
+      y: y,
       width: 16, // width and height of the sprite rectangle
       height: 16,
       anchor: { x: 0.5, y: 0.5 },

@@ -9,11 +9,13 @@ import {
 } from 'kontra';
 import { Game } from './game';
 import { getFuturePos, rectCollision } from './gameUtils';
+import { Goal } from './goal';
 
 import { IGameObject } from './iGameObject';
 import { InputHandler } from './inputHandler';
 import { KeyState } from './keyState';
 import { Mirror } from './mirror';
+import { Wall } from './Wall';
 
 export class Player implements IGameObject {
   PLAYER_ID = 'p';
@@ -25,7 +27,8 @@ export class Player implements IGameObject {
   directionKeys: string[] = ['up', 'down', 'left', 'right'];
   speed = 2;
   game: Game;
-  constructor(game: Game) {
+  isLevelComplete = false;
+  constructor(game: Game, x: number, y: number) {
     let image = new Image();
     image.src = 'assets/heroMove.png';
     image.onload = () => {
@@ -46,9 +49,9 @@ export class Player implements IGameObject {
     this.game = game;
     this.inputHandler = new InputHandler();
     this.player = Sprite({
-      x: 40, // starting x,y position of the sprite
-      y: 150,
-      width: 16, // width and height of the sprite rectangle
+      x: x,
+      y: y,
+      width: 16,
       height: 16,
       anchor: { x: 0.5, y: 0.5 },
     });
@@ -87,19 +90,20 @@ export class Player implements IGameObject {
   handleCollision(moveSpeed: Vector) {
     const futurePos = getFuturePos(this.player, moveSpeed);
     const collided: IGameObject[] = this.checkCollisions(futurePos);
-    if (!collided.length) {
-      this.player.dx = moveSpeed.x;
-      this.player.dy = moveSpeed.y;
-    } else {
+
+    let shouldStop = false;
+    collided.forEach((c) => {
+      if (c instanceof Mirror || c instanceof Wall) {
+        shouldStop = true;
+      }
+    });
+    if (shouldStop) {
       this.player.dx = 0;
       this.player.dy = 0;
+    } else {
+      this.player.dx = moveSpeed.x;
+      this.player.dy = moveSpeed.y;
     }
-
-    collided.forEach((coll) => {
-      // if (coll && coll.isMovable) {
-      //   this.pushOther(coll);
-      // }
-    });
   }
   pushOther(collided: IGameObject) {
     const oWorld = collided.mainSprite.world;
@@ -154,6 +158,11 @@ export class Player implements IGameObject {
     // TODO push or something when in proximity of something
     if (go === this) {
       if (other instanceof Mirror) {
+      } else if (other instanceof Goal) {
+        if (!this.isLevelComplete) {
+          emit('levelcomplete', null);
+          this.isLevelComplete = true;
+        }
       } else if (other.isMovable) {
         this.pushOther(other);
       }

@@ -1,8 +1,17 @@
-import { emit, GameObject, Sprite, track, Vector } from 'kontra';
+import {
+  bindKeys,
+  emit,
+  GameObject,
+  keyPressed,
+  Sprite,
+  track,
+  Vector,
+} from 'kontra';
 import { Game } from './game';
 import { getFuturePos, rectCollision } from './gameUtils';
 
 import { IGameObject } from './iGameObject';
+import { Wall } from './Wall';
 
 export class Mirror implements IGameObject {
   mainSprite: Sprite;
@@ -10,15 +19,15 @@ export class Mirror implements IGameObject {
   closestObject: { go: IGameObject; pos: Vector; dist: number };
   currPos: Vector;
   image = new Image();
-  constructor(private game: Game) {
+  constructor(private game: Game, x: number, y: number) {
     // TODO copy zelda crystal as mirror
     this.image.src = './assets/mirrorCrystal.png';
     this.image.onload = () => {
       this.mainSprite.image = this.image;
     };
     this.mainSprite = new Sprite({
-      x: 100,
-      y: 100,
+      x: x,
+      y: y,
       radius: 8,
       width: 16,
       height: 16,
@@ -40,11 +49,21 @@ export class Mirror implements IGameObject {
   }
 
   update() {
+    this.handleKeys();
     this.handleMirrorCollision();
     this.getClosestObject();
     this.mainSprite.update();
   }
 
+  handleKeys() {
+    bindKeys(
+      'space',
+      () => {
+        this.mirrorObject(this.closestObject);
+      },
+      'keyup'
+    );
+  }
   handleMirrorCollision() {
     this.game.gameObjects.forEach((other: IGameObject) => {
       if (other.isMovable) {
@@ -64,7 +83,7 @@ export class Mirror implements IGameObject {
     let currClosestDistance = 99999999;
 
     this.game.gameObjects.forEach((other: IGameObject) => {
-      if (other === this) return;
+      if (other === this || other instanceof Wall) return;
       const otherPos: Vector = new Vector(
         other.mainSprite.x + other.mainSprite.width / 2,
         other.mainSprite.y + other.mainSprite.height / 2

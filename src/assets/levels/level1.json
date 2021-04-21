@@ -1,0 +1,25 @@
+{
+  "description": "Click the crystal to mirror yourself",
+  "playerPos": [{ "x": 250, "y": 200 }],
+  "mirrorPos": [{ "x": 200, "y": 200 }],
+  "cratePos": [{ "x": 270, "y": 200 }],
+  "goalPos": [{ "x": 30, "y": 200 }],
+  "walls": [
+    {
+      "width": 16,
+      "height": 16,
+      "repeatX": 60,
+      "repeatY": 1,
+      "x": 0,
+      "y": 226
+    },
+    {
+      "width": 16,
+      "height": 16,
+      "repeatX": 60,
+      "repeatY": 1,
+      "x": 0,
+      "y": 175
+    }
+  ]
+}
