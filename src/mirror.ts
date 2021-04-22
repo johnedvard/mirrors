@@ -1,12 +1,4 @@
-import {
-  bindKeys,
-  emit,
-  GameObject,
-  keyPressed,
-  Sprite,
-  track,
-  Vector,
-} from 'kontra';
+import { bindKeys, emit, Sprite, track, Vector } from 'kontra';
 import { Game } from './game';
 import { getFuturePos, rectCollision } from './gameUtils';
 
@@ -33,6 +25,7 @@ export class Mirror implements IGameObject {
       height: 16,
       anchor: { x: 0.5, y: 0.5 },
       onUp: () => {
+        console.log('on up mouse');
         this.mirrorObject(this.closestObject);
       },
     });

@@ -55,10 +55,10 @@ export class NearConnection {
     });
   }
 
-  setScore = (levelName: string, score: string, name: string) => {
+  setScore = (levelName: string, score: string, name: string): Promise<any> => {
     const json = JSON.stringify({ score, name });
     console.log('save', levelName, json);
-    (<any>this.contract).setScore({
+    return (<any>this.contract).setScore({
       levelName,
       json,
     });

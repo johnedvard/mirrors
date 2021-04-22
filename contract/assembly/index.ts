@@ -71,7 +71,7 @@ export function getScores(levelName: string): AVLTree<string, string> | null {
 export function getScore(levelName: string, accountId: string): string | null {
   if (scoreMaps.has(levelName)) {
     const score = scoreMaps.get(levelName);
-    if (score) return score.get(accountId, 'nothing found');
+    if (score) return score.get(accountId, null);
   }
   return null;
 }

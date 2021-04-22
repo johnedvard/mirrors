@@ -1,26 +1,34 @@
 import { init, GameLoop, initPointer, initKeys, on } from 'kontra';
 import { Crate } from './crate';
+import { fadeIn, fadeOut } from './domUtils';
 import { Goal } from './goal';
 import { IGameObject } from './iGameObject';
 import { IWall } from './iWall';
 import { loadLevel } from './levelEngine';
 
 import { Mirror } from './mirror';
+import { NearConnection } from './nearConnection';
 import { Player } from './player';
+import { Popup } from './popup';
 import { Wall } from './Wall';
 
 export class Game {
   private loop: GameLoop;
   gameObjects: IGameObject[] = [];
   currentLevel = 1;
-  constructor(canvas: HTMLCanvasElement) {
+  popup: Popup;
+  constructor(
+    canvas: HTMLCanvasElement,
+    private nearConnection: NearConnection
+  ) {
     console.log('new game');
     canvas.width = 400;
     canvas.height = 400;
     init(canvas);
-    initPointer();
-    initKeys();
+    this.popup = new Popup(nearConnection);
     this.initGame(`level${this.currentLevel}`);
+    initKeys();
+    initPointer();
     on('levelcomplete', this.levelComplete);
   }
 
@@ -61,8 +69,15 @@ export class Game {
     console.log('load new level');
     this.loop.stop();
     const nextLevel = `level${++this.currentLevel}`;
-    this.initGame(nextLevel);
+    fadeIn();
+    this.popup.openPopup().then((res) => {
+      if (res) {
+        fadeOut();
+        this.initGame(nextLevel);
+      }
+    });
   };
+
   start(): Game {
     this.loop.start(); // start the game
     return this;

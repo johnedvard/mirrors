@@ -1,8 +1,9 @@
 import { ILevel } from './iLevel';
 
 const cachedLevels: any = {};
-
+let currentLevel = 'level1';
 export const loadLevel = (level: string): Promise<ILevel> => {
+  currentLevel = level;
   return new Promise((resolve, reject) => {
     var xObj = new XMLHttpRequest();
     xObj.overrideMimeType('application/json');
@@ -22,6 +23,10 @@ export const loadLevel = (level: string): Promise<ILevel> => {
     };
     xObj.send(null);
   });
+};
+
+export const getCurrentLevel = (): string => {
+  return currentLevel;
 };
 
 export const getLevel = (level: string) => {};

@@ -28,7 +28,10 @@ module.exports = {
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({ title: 'Mirrors' }),
+    new HtmlWebpackPlugin({
+      title: 'Mirrors gamejam 2021',
+      template: path.resolve(__dirname, 'src/index.html'),
+    }),
     new NodePolyfillPlugin(),
     new CopyPlugin({
       patterns: [

@@ -25,7 +25,7 @@ export class Player implements IGameObject {
   keyState: KeyState;
   inputHandler: InputHandler;
   directionKeys: string[] = ['up', 'down', 'left', 'right'];
-  speed = 2;
+  speed = 1;
   game: Game;
   isLevelComplete = false;
   constructor(game: Game, x: number, y: number) {
@@ -112,8 +112,8 @@ export class Player implements IGameObject {
       oWorld.x - mWorld.x,
       oWorld.y - mWorld.y
     ).normalize();
-    collided.mainSprite.dx = deltaDist.x * 2;
-    collided.mainSprite.dy = deltaDist.y * 2;
+    collided.mainSprite.dx = deltaDist.x;
+    collided.mainSprite.dy = deltaDist.y;
   }
   checkCollisions = (futureP: GameObject): IGameObject[] => {
     const collided: IGameObject[] = [];

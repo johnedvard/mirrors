@@ -7,9 +7,61 @@ body {
   flex-flow: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 canvas {
   max-width: 100%;
   max-height: 100%;
   background: rgb(138, 118, 101);
+  z-index: 100;
+}
+
+#overlay-fader {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0);
+  transition: all 1s ease-in-out;
+  &.fade-out {
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.7);
+    transition: all 1s ease-in-out;
+  }
+}
+
+#popup {
+  z-index: 1000;
+  position: absolute;
+  transform: translateY(200%);
+  width: 70vh;
+  height: 70vw;
+  background: rgb(66 2 42 / 90%);
+  color: white;
+  border: 1px solid black;
+  padding: 20px;
+  display: flex;
+  flex-flow: column;
+  &.fade-in {
+    transform: translateY(0);
+    transition: all 1s ease-in-out;
+  }
+  &.fade-out {
+    transform: translateY(200%);
+    transition: all 1s ease-in-out;
+  }
+  #btn-group {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+  }
+  button {
+    width: 50%;
+    margin-top: 20px;
+  }
+  div {
+    margin-top: 10px;
+  }
 }
