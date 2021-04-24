@@ -31,10 +31,16 @@ export const injectMonetizationTag = () => {
     console.log('monetization added');
   }
 
-  (<any>document).monetization.addEventListener(
-    'monetizationprogress',
-    (ev: any) => {
+  if (document && (<any>document).monetization) {
+    (<any>document).monetization.addEventListener(
+      'monetizationprogress',
+      (ev: any) => {
+        monetizationProgress.next(ev);
+      }
+    );
+  } else {
+    window.addEventListener('monetizationprogress', (ev: any) => {
       monetizationProgress.next(ev);
-    }
-  );
+    });
+  }
 };
