@@ -10,11 +10,8 @@ export class NearConnection {
 
   // Initialize contract & set global variables
   async initContract() {
-    console.log('init');
-
     // Initialize connection to the NEAR testnet
     const keyStore = new keyStores.BrowserLocalStorageKeyStore();
-    console.log('keyStore', keyStore);
     const near = await connect({ ...this.nearConfig, keyStore });
 
     // Initializing Wallet based Account. It can work with NEAR testnet wallet that
@@ -57,7 +54,6 @@ export class NearConnection {
 
   setScore = (levelName: string, score: string, name: string): Promise<any> => {
     const json = JSON.stringify({ score, name });
-    console.log('save', levelName, json);
     return (<any>this.contract).setScore({
       levelName,
       json,

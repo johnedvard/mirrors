@@ -73,8 +73,6 @@ export class Game {
   }
 
   levelComplete = () => {
-    console.log('prompt dialog to save score');
-    console.log('load new level');
     this.loop.stop();
     const timeEnd = Date.now();
     const nextLevel = `level${++this.currentLevel}`;

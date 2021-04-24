@@ -90,10 +90,7 @@ export class Popup {
     this.totalSeconds = parseInt(`${Math.floor(scoreMillis / 1000)}`);
     this.totalMinutes = parseInt(`${Math.floor(this.totalSeconds / 60)}`);
 
-    console.log('getCurrentLevel', getCurrentLevel());
-
     this.nearConnection.getScore(getCurrentLevel()).then((res: string) => {
-      console.log('res', res);
       if (res) {
         const resJson: { score: string; name: string } = JSON.parse(res);
         const savedScoreInMillis = Number.parseFloat(resJson.score);

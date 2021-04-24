@@ -25,7 +25,6 @@ export class Mirror implements IGameObject {
       height: 16,
       anchor: { x: 0.5, y: 0.5 },
       onUp: () => {
-        console.log('on up mouse');
         this.mirrorObject(this.closestObject);
       },
     });
