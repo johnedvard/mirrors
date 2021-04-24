@@ -2,7 +2,7 @@ import { bindKeys, emit, Sprite, track, Vector } from 'kontra';
 import { Game } from './game';
 import { getFuturePos, rectCollision } from './gameUtils';
 
-import { IGameObject } from './iGameObject';
+import { IGameObject } from './IGameObject';
 import { Wall } from './Wall';
 
 export class Mirror implements IGameObject {

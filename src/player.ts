@@ -11,7 +11,7 @@ import { Game } from './game';
 import { getFuturePos, rectCollision } from './gameUtils';
 import { Goal } from './goal';
 
-import { IGameObject } from './iGameObject';
+import { IGameObject } from './IGameObject';
 import { InputHandler } from './inputHandler';
 import { KeyState } from './keyState';
 import { Mirror } from './mirror';

@@ -1,5 +1,5 @@
 import { on, Sprite } from 'kontra';
-import { IGameObject } from './iGameObject';
+import { IGameObject } from './IGameObject';
 import { Mirror } from './mirror';
 
 export class Crate implements IGameObject {

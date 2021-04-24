@@ -1,5 +1,5 @@
 import { Sprite } from 'kontra';
-import { IGameObject } from './iGameObject';
+import { IGameObject } from './IGameObject';
 
 export class Goal implements IGameObject {
   mainSprite: Sprite;

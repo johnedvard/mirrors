@@ -2,7 +2,7 @@ import { init, GameLoop, initPointer, initKeys, on, emit } from 'kontra';
 import { Crate } from './crate';
 import { fadeIn, fadeOut } from './domUtils';
 import { Goal } from './goal';
-import { IGameObject } from './iGameObject';
+import { IGameObject } from './IGameObject';
 import { IWall } from './iWall';
 import { loadLevel } from './levelEngine';
 
