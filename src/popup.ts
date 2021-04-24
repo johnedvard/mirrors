@@ -12,8 +12,9 @@ export class Popup {
   currentTimeEl: HTMLElement;
   currentLevelEl: HTMLElement;
   private closePopupResolve: any;
-
-  timeScore = 'some highscore';
+  score: string;
+  totalSeconds: number;
+  totalMinutes: number;
 
   constructor(private nearConnection: NearConnection) {
     this.popupEl = document.getElementById('popup');
@@ -68,15 +69,10 @@ export class Popup {
   registerTime = () => {
     this.responseMsgEl.innerHTML = 'Registration in progress';
     this.nearConnection
-      .setScore(
-        getCurrentLevel(),
-        this.timeScore,
-        this.nearConnection.accountId
-      )
+      .setScore(getCurrentLevel(), this.score, this.nearConnection.accountId)
       .then((res) => {
-        console.log('res after save', res);
         this.responseMsgEl.innerHTML = 'Registration complete';
-        this.bestTimeEl.innerHTML = this.timeScore;
+        this.bestTimeEl.innerHTML = `${this.totalMinutes} minutes, ${this.totalSeconds} seconds`;
       })
       .catch((err) => {
         this.responseMsgEl.innerHTML = 'Some error occured';
@@ -89,21 +85,28 @@ export class Popup {
     this.closePopupResolve(true);
   };
 
-  openPopup = (): Promise<boolean> => {
+  openPopup = (scoreMillis: number): Promise<boolean> => {
+    this.score = `${scoreMillis}`;
+    this.totalSeconds = parseInt(`${Math.floor(scoreMillis / 1000)}`);
+    this.totalMinutes = parseInt(`${Math.floor(this.totalSeconds / 60)}`);
+
     console.log('getCurrentLevel', getCurrentLevel());
 
     this.nearConnection.getScore(getCurrentLevel()).then((res: string) => {
       console.log('res', res);
       if (res) {
         const resJson: { score: string; name: string } = JSON.parse(res);
-        this.bestTimeEl.innerHTML = resJson.score;
+        const savedScoreInMillis = Number.parseFloat(resJson.score);
+        const resSeconds = parseInt(`${Math.floor(savedScoreInMillis / 1000)}`);
+        const resMinutes = parseInt(`${Math.floor(resSeconds / 60)}`);
+        this.bestTimeEl.innerHTML = `${resMinutes} minutes, ${resSeconds} seconds`;
       } else {
         this.bestTimeEl.innerHTML = 'Nothing registered';
       }
     });
     this.responseMsgEl.innerHTML = '';
     this.bestTimeEl.innerHTML = 'Fetching high score';
-    this.currentTimeEl.innerHTML = this.timeScore;
+    this.currentTimeEl.innerHTML = `${this.totalMinutes} minutes, ${this.totalSeconds} seconds`;
     this.currentLevelEl.innerHTML = getCurrentLevel();
     const popupEl = document.getElementById('popup');
     popupEl.classList.remove('fade-out');

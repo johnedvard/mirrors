@@ -24,8 +24,9 @@ export class Player implements IGameObject {
   player: Sprite;
   keyState: KeyState;
   inputHandler: InputHandler;
-  directionKeys: string[] = ['up', 'down', 'left', 'right'];
-  speed = 1;
+  directionKeys: string[] = ['up', 'down', 'left', 'right', 'w', 's', 'a', 'd'];
+  speed = 1.5;
+  pushForce = 1.5;
   game: Game;
   isLevelComplete = false;
   constructor(game: Game, x: number, y: number) {
@@ -112,8 +113,8 @@ export class Player implements IGameObject {
       oWorld.x - mWorld.x,
       oWorld.y - mWorld.y
     ).normalize();
-    collided.mainSprite.dx = deltaDist.x;
-    collided.mainSprite.dy = deltaDist.y;
+    collided.mainSprite.dx = deltaDist.x * this.pushForce;
+    collided.mainSprite.dy = deltaDist.y * this.pushForce;
   }
   checkCollisions = (futureP: GameObject): IGameObject[] => {
     const collided: IGameObject[] = [];
@@ -131,14 +132,22 @@ export class Player implements IGameObject {
     const direction: Vector = new Vector(0, 0);
     if (this.keyState.ArrowLeft && this.keyState.ArrowLeft.pressed) {
       direction.x = -1;
+    } else if (this.keyState.KeyA && this.keyState.KeyA.pressed) {
+      direction.x = -1;
     }
     if (this.keyState.ArrowRight && this.keyState.ArrowRight.pressed) {
+      direction.x = 1;
+    } else if (this.keyState.KeyD && this.keyState.KeyD.pressed) {
       direction.x = 1;
     }
     if (this.keyState.ArrowUp && this.keyState.ArrowUp.pressed) {
       direction.y = -1;
+    } else if (this.keyState.KeyW && this.keyState.KeyW.pressed) {
+      direction.y = -1;
     }
     if (this.keyState.ArrowDown && this.keyState.ArrowDown.pressed) {
+      direction.y = 1;
+    } else if (this.keyState.KeyS && this.keyState.KeyS.pressed) {
       direction.y = 1;
     }
     return new Vector(direction.x * this.speed, direction.y * this.speed);

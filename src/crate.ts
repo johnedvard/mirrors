@@ -5,7 +5,7 @@ import { Mirror } from './mirror';
 export class Crate implements IGameObject {
   mainSprite: Sprite;
   isMovable = true;
-  friction = 4;
+  friction = 3;
   constructor(x: number, y: number) {
     let image = new Image();
     image.src = 'assets/crate.png';
