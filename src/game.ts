@@ -6,6 +6,7 @@ import {
   on,
   emit,
   keyPressed,
+  bindKeys,
 } from 'kontra';
 import { Crate } from './crate';
 import { fadeIn, fadeOut } from './domUtils';
@@ -13,6 +14,11 @@ import { Goal } from './goal';
 import { IGameObject } from './IGameObject';
 import { IWall } from './iWall';
 import { loadLevel } from './levelEngine';
+import {
+  closePopup,
+  isLevelSelectorOpen,
+  openLevelSelector,
+} from './levelSelector';
 
 import { Mirror } from './mirror';
 import { NearConnection } from './nearConnection';
@@ -93,6 +99,25 @@ export class Game {
         this.gameObjects.push(new Player(this, p.x, p.y));
       });
 
+      bindKeys(
+        'm',
+        (e) => {
+          if (!this.loop.isStopped && !isLevelSelectorOpen()) {
+            this.loop.stop();
+            openLevelSelector()
+              .then((level: string) => {
+                this.initGame(level);
+              })
+              .catch((err) => {
+                this.loop.start();
+              });
+          } else {
+            closePopup();
+          }
+        },
+        'keyup'
+      );
+
       this.loop = GameLoop({
         update: (dt: number) => {
           if (keyPressed('r')) {
@@ -128,7 +153,6 @@ export class Game {
   };
 
   restartLevel = () => {
-    this.loop.stop();
     const currentLevel = `level${this.currentLevel}`;
     this.initGame(currentLevel);
   };

@@ -31,8 +31,11 @@ canvas {
     transition: all 1s ease-in-out;
   }
 }
-
-#popup {
+#levelSelector {
+  align-items: center;
+}
+#popup,
+#levelSelector {
   z-index: 1000;
   position: absolute;
   transform: translateY(200%);
