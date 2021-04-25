@@ -11,9 +11,6 @@ export const loadLevel = (level: string): Promise<ILevel> => {
     xObj.open('GET', `./assets/levels/${level}.json`, true);
     // 1. replace './data.json' with the local path of your file
     xObj.onreadystatechange = function () {
-      console.log('ready state', xObj.readyState);
-      console.log('xObj.status', xObj.status);
-      console.log('level', level);
       if (xObj.readyState === 4 && xObj.status === 200) {
         // 2. call your callback function
         const levelJson = JSON.parse(xObj.responseText);
