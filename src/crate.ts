@@ -1,10 +1,12 @@
 import { on, Sprite } from 'kontra';
 import { IGameObject } from './IGameObject';
 import { Mirror } from './mirror';
+import { Spikes } from './spikes';
 
 export class Crate implements IGameObject {
   mainSprite: Sprite;
   isMovable = true;
+  isDestroyed = false;
   friction = 3;
   constructor(x: number, y: number) {
     let image = new Image();
@@ -40,6 +42,9 @@ export class Crate implements IGameObject {
     if (go instanceof Mirror && other === this) {
       this.mainSprite.dx = 0;
       this.mainSprite.dy = 0;
+    } else if (go instanceof Spikes && other === this) {
+      this.isDestroyed = true;
+      console.log('TODO, destroy');
     }
   };
 }

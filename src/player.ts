@@ -73,8 +73,8 @@ export class Player implements IGameObject {
     };
     const pressKey = (e: KeyboardEvent) => {
       inputHandler.pressKey(this.PLAYER_ID, e.code);
-      if (audioAssets['/assets/music/walk']) {
-        audioAssets['/assets/music/walk'].play();
+      if (audioAssets['assets/walk']) {
+        audioAssets['assets/walk'].play();
       }
     };
     bindKeys(this.directionKeys, releaseKey, 'keyup');

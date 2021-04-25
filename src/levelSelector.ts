@@ -1,4 +1,4 @@
-const numLevels = 5;
+const numLevels = 6;
 
 const levelSelectorEl = document.getElementById('levelSelector');
 const children: { btn: HTMLElement; evtLister: EventListener }[] = [];

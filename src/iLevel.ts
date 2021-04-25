@@ -7,4 +7,5 @@ export interface ILevel {
   cratePos: { x: number; y: number }[];
   goalPos: { x: number; y: number }[];
   walls: IWall[];
+  spikesPos: { x: number; y: number }[];
 }

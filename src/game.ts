@@ -12,6 +12,7 @@ import {
 } from 'kontra';
 import { Crate } from './crate';
 import { fadeIn, fadeOut } from './domUtils';
+import { rectCollision } from './gameUtils';
 import { Goal } from './goal';
 import { IGameObject } from './IGameObject';
 import { IWall } from './iWall';
@@ -26,6 +27,7 @@ import { Mirror } from './mirror';
 import { NearConnection } from './nearConnection';
 import { Player } from './player';
 import { Popup } from './popup';
+import { Spikes } from './spikes';
 import { Wall } from './Wall';
 
 function loginout(loginoutEl: HTMLElement, nearConnection: NearConnection) {
@@ -106,14 +108,16 @@ export class Game {
 
     on('levelcomplete', this.levelComplete);
     on('gamecomplete', this.gameComplete);
+    on('playerkill', this.playerKill);
 
-    load('/assets/music/Electric castle.mp3').then(() => {
-      audioAssets['/assets/music/Electric castle'].play();
-      audioAssets['/assets/music/Electric castle'].loop = true;
+    load('assets/Electric castle.mp3').then(() => {
+      audioAssets['assets/Electric castle'].play();
+      audioAssets['assets/Electric castle'].loop = true;
     });
-    load('/assets/music/walk.wav').then(() => {});
-    load('/assets/music/mirror.wav').then(() => {});
-    load('/assets/music/goal.wav').then(() => {});
+    load('assets/walk.wav').then(() => {});
+    load('assets/mirror.wav').then(() => {});
+    load('assets/goal.wav').then(() => {});
+    load('assets/hurt.wav').then(() => {});
   }
 
   async initGame(level: string) {
@@ -132,13 +136,27 @@ export class Game {
       level1.cratePos.forEach((c) => {
         this.gameObjects.push(new Crate(c.x, c.y));
       });
+      level1.spikesPos.forEach((s) => {
+        this.gameObjects.push(new Spikes(s.x, s.y));
+      });
       level1.playerPos.forEach((p) => {
         this.gameObjects.push(new Player(this, p.x, p.y));
       });
 
       this.loop = GameLoop({
         update: (dt: number) => {
-          this.gameObjects.forEach((go) => go.update(dt));
+          this.gameObjects.forEach((go) => {
+            // this.gameObjects.forEach((other) => {
+            //   if (
+            //     go !== other &&
+            //     rectCollision(go.mainSprite, other.mainSprite)
+            //   ) {
+            //     if (go instanceof Spikes && other instanceof Crate)
+            //       emit('collision', go, other);
+            //   }
+            // });
+            go.update(dt);
+          });
         },
         render: (dt: number) => {
           this.gameObjects.forEach((go) => go.render(dt));
@@ -155,8 +173,8 @@ export class Game {
   }
 
   levelComplete = () => {
-    if (audioAssets['/assets/music/goal']) {
-      audioAssets['/assets/music/goal'].play();
+    if (audioAssets['assets/goal']) {
+      audioAssets['assets/goal'].play();
     }
     this.loop.stop();
     const timeEnd = Date.now();
@@ -185,4 +203,11 @@ export class Game {
     this.loop.start(); // start the game
     return this;
   }
+
+  playerKill = () => {
+    if (audioAssets['assets/hurt']) {
+      audioAssets['assets/hurt'].play();
+    }
+    this.restartLevel();
+  };
 }

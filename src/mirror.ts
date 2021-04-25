@@ -14,7 +14,7 @@ export class Mirror implements IGameObject {
   image = new Image();
   constructor(private game: Game, x: number, y: number) {
     // TODO copy zelda crystal as mirror
-    this.image.src = './assets/mirrorCrystal.png';
+    this.image.src = 'assets/mirrorCrystal.png';
     this.image.onload = () => {
       this.mainSprite.image = this.image;
     };
@@ -97,8 +97,8 @@ export class Mirror implements IGameObject {
 
   mirrorObject(obj: { go: IGameObject; pos: Vector; dist: number }) {
     if (obj) {
-      if (audioAssets['/assets/music/mirror']) {
-        audioAssets['/assets/music/mirror'].play();
+      if (audioAssets['assets/mirror']) {
+        audioAssets['assets/mirror'].play();
       }
       let scale = 1;
       if (obj.dist < 0) {
