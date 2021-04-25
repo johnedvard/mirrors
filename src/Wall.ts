@@ -11,7 +11,7 @@ export class Wall implements IGameObject {
       y: w.y,
       width: w.width * w.repeatX, // width and height of the sprite rectangle
       height: w.height * w.repeatY,
-      color: '#456767',
+      color: '#94216a',
       anchor: { x: 0.5, y: 0.5 },
     });
   }

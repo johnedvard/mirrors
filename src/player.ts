@@ -1,4 +1,5 @@
 import {
+  audioAssets,
   bindKeys,
   emit,
   GameObject,
@@ -72,6 +73,9 @@ export class Player implements IGameObject {
     };
     const pressKey = (e: KeyboardEvent) => {
       inputHandler.pressKey(this.PLAYER_ID, e.code);
+      if (audioAssets['/assets/music/walk']) {
+        audioAssets['/assets/music/walk'].play();
+      }
     };
     bindKeys(this.directionKeys, releaseKey, 'keyup');
     bindKeys(this.directionKeys, pressKey, 'keydown');

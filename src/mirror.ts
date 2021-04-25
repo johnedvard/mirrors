@@ -1,4 +1,4 @@
-import { bindKeys, emit, Sprite, track, Vector } from 'kontra';
+import { audioAssets, bindKeys, emit, Sprite, track, Vector } from 'kontra';
 import { Game } from './game';
 import { getFuturePos, rectCollision } from './gameUtils';
 
@@ -97,6 +97,9 @@ export class Mirror implements IGameObject {
 
   mirrorObject(obj: { go: IGameObject; pos: Vector; dist: number }) {
     if (obj) {
+      if (audioAssets['/assets/music/mirror']) {
+        audioAssets['/assets/music/mirror'].play();
+      }
       let scale = 1;
       if (obj.dist < 0) {
         scale = -1;

@@ -7,6 +7,8 @@ import {
   emit,
   keyPressed,
   bindKeys,
+  load,
+  audioAssets,
 } from 'kontra';
 import { Crate } from './crate';
 import { fadeIn, fadeOut } from './domUtils';
@@ -27,7 +29,6 @@ import { Popup } from './popup';
 import { Wall } from './Wall';
 
 function loginout(loginoutEl: HTMLElement, nearConnection: NearConnection) {
-  console.log('login or out');
   if (!nearConnection) return;
   if (nearConnection.walletConnection.isSignedIn()) {
     nearConnection.logout();
@@ -105,6 +106,14 @@ export class Game {
 
     on('levelcomplete', this.levelComplete);
     on('gamecomplete', this.gameComplete);
+
+    load('/assets/music/Electric castle.mp3').then(() => {
+      audioAssets['/assets/music/Electric castle'].play();
+      audioAssets['/assets/music/Electric castle'].loop = true;
+    });
+    load('/assets/music/walk.wav').then(() => {});
+    load('/assets/music/mirror.wav').then(() => {});
+    load('/assets/music/goal.wav').then(() => {});
   }
 
   async initGame(level: string) {
@@ -146,6 +155,9 @@ export class Game {
   }
 
   levelComplete = () => {
+    if (audioAssets['/assets/music/goal']) {
+      audioAssets['/assets/music/goal'].play();
+    }
     this.loop.stop();
     const timeEnd = Date.now();
     const nextLevel = `level${++this.currentLevel}`;
