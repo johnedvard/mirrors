@@ -1,4 +1,12 @@
-import { init, GameLoop, initPointer, initKeys, on, emit } from 'kontra';
+import {
+  init,
+  GameLoop,
+  initPointer,
+  initKeys,
+  on,
+  emit,
+  keyPressed,
+} from 'kontra';
 import { Crate } from './crate';
 import { fadeIn, fadeOut } from './domUtils';
 import { Goal } from './goal';
@@ -87,6 +95,9 @@ export class Game {
 
       this.loop = GameLoop({
         update: (dt: number) => {
+          if (keyPressed('r')) {
+            this.restartLevel();
+          }
           this.gameObjects.forEach((go) => go.update(dt));
         },
         render: (dt: number) => {
@@ -114,6 +125,12 @@ export class Game {
         this.initGame(nextLevel);
       }
     });
+  };
+
+  restartLevel = () => {
+    this.loop.stop();
+    const currentLevel = `level${this.currentLevel}`;
+    this.initGame(currentLevel);
   };
 
   gameComplete = () => {
