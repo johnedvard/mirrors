@@ -51,7 +51,7 @@ function initLoginLogout(nearConnection: NearConnection) {
 export class Game {
   private loop: GameLoop;
   gameObjects: IGameObject[] = [];
-  currentLevel = 4;
+  currentLevel = 1;
   popup: Popup;
   timeStart: number;
   constructor(

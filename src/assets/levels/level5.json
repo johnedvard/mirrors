@@ -1,9 +1,9 @@
 {
-  "description": "Think outside of the box",
+  "description": "Mirrors can be moved as well",
   "playerPos": [{ "x": 250, "y": 200 }],
   "mirrorPos": [{ "x": 200, "y": 200 }],
   "cratePos": [{ "x": 220, "y": 200 }],
-  "goalPos": [{ "x": 30, "y": 200 }],
+  "goalPos": [{ "x": 30, "y": 250 }],
   "walls": [
     {
       "width": 16,
