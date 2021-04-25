@@ -1,16 +1,16 @@
 {
-  "description": "The closest object will be affected by the mirror crystal",
-  "playerPos": [{ "x": 350, "y": 200 }],
+  "description": "Think outside of the box",
+  "playerPos": [{ "x": 250, "y": 200 }],
   "mirrorPos": [{ "x": 200, "y": 200 }],
-  "cratePos": [{ "x": 290, "y": 200 }],
-  "goalPos": [{ "x": 50, "y": 200 }],
+  "cratePos": [{ "x": 220, "y": 200 }],
+  "goalPos": [{ "x": 30, "y": 200 }],
   "walls": [
     {
       "width": 16,
       "height": 16,
       "repeatX": 1,
       "repeatY": 1,
-      "x": 184,
+      "x": 56,
       "y": 200
     },
     {
@@ -18,7 +18,7 @@
       "height": 16,
       "repeatX": 1,
       "repeatY": 1,
-      "x": 216,
+      "x": 266,
       "y": 200
     },
     {

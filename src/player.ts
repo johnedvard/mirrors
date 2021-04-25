@@ -166,8 +166,7 @@ export class Player implements IGameObject {
   onCollision = (go: IGameObject, other: IGameObject) => {
     // TODO push or something when in proximity of something
     if (go === this) {
-      if (other instanceof Mirror) {
-      } else if (other instanceof Goal) {
+      if (other instanceof Goal) {
         if (!this.isLevelComplete) {
           emit('levelcomplete', null);
           this.isLevelComplete = true;

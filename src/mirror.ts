@@ -7,7 +7,8 @@ import { Wall } from './Wall';
 
 export class Mirror implements IGameObject {
   mainSprite: Sprite;
-  isMovable = false;
+  isMovable = true;
+  friction = 4;
   closestObject: { go: IGameObject; pos: Vector; dist: number };
   currPos: Vector;
   image = new Image();
@@ -28,11 +29,6 @@ export class Mirror implements IGameObject {
         this.mirrorObject(this.closestObject);
       },
     });
-
-    this.currPos = new Vector(
-      this.mainSprite.x + this.mainSprite.width / 2,
-      this.mainSprite.y + this.mainSprite.height / 2
-    );
     track(this.mainSprite);
   }
 
@@ -40,11 +36,21 @@ export class Mirror implements IGameObject {
     this.mainSprite.render();
   }
 
-  update() {
+  update(dt: number) {
+    this.currPos = new Vector(
+      this.mainSprite.x + this.mainSprite.width / 2,
+      this.mainSprite.y + this.mainSprite.height / 2
+    );
+    this.handleFriction(dt);
     this.handleKeys();
     this.handleMirrorCollision();
     this.getClosestObject();
     this.mainSprite.update();
+  }
+
+  handleFriction(dt: number) {
+    this.mainSprite.dx /= Math.pow(this.friction, dt);
+    this.mainSprite.dy /= Math.pow(this.friction, dt);
   }
 
   handleKeys() {
@@ -86,9 +92,7 @@ export class Mirror implements IGameObject {
         currClosestObject = { go: other, pos: otherPos, dist: otherDist };
       }
     });
-    if (this.closestObject !== currClosestObject) {
-      this.closestObject = currClosestObject;
-    }
+    this.closestObject = currClosestObject;
   }
 
   mirrorObject(obj: { go: IGameObject; pos: Vector; dist: number }) {

@@ -8,6 +8,22 @@
     {
       "width": 16,
       "height": 16,
+      "repeatX": 1,
+      "repeatY": 1,
+      "x": 184,
+      "y": 200
+    },
+    {
+      "width": 16,
+      "height": 16,
+      "repeatX": 1,
+      "repeatY": 1,
+      "x": 216,
+      "y": 200
+    },
+    {
+      "width": 16,
+      "height": 16,
       "repeatX": 60,
       "repeatY": 1,
       "x": 0,
