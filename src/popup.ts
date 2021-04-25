@@ -31,22 +31,24 @@ export class Popup {
     this.nextLevelEl.addEventListener('click', () => this.nextLevelClick());
     this.logoutEl.addEventListener('click', () => this.logout());
 
-    this.initContract();
-  }
-
-  initContract() {
-    this.nearConnection.initContract().then(async (res) => {
-      if (!this.nearConnection.walletConnection.isSignedIn()) {
-        // TODO (johnedvard add Login button)
-        this.loginEl.removeAttribute('disabled');
-        this.logoutEl.setAttribute('disabled', 'true');
-        this.registerTimeEl.setAttribute('disabled', 'true');
-      } else {
-        this.registerTimeEl.removeAttribute('disabled');
-        this.logoutEl.removeAttribute('disabled');
-        this.loginEl.setAttribute('disabled', 'true');
+    this.nearConnection.connected().subscribe((res) => {
+      if (res === 'OK') {
+        this.initButtonState();
       }
     });
+  }
+
+  initButtonState() {
+    if (!this.nearConnection.walletConnection.isSignedIn()) {
+      // TODO (johnedvard add Login button)
+      this.loginEl.removeAttribute('disabled');
+      this.logoutEl.setAttribute('disabled', 'true');
+      this.registerTimeEl.setAttribute('disabled', 'true');
+    } else {
+      this.registerTimeEl.removeAttribute('disabled');
+      this.logoutEl.removeAttribute('disabled');
+      this.loginEl.setAttribute('disabled', 'true');
+    }
   }
   cleanupPopop = () => {
     this.nextLevelEl.removeEventListener('click', this.nextLevelClick);

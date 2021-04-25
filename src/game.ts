@@ -12,6 +12,34 @@ import { Player } from './player';
 import { Popup } from './popup';
 import { Wall } from './Wall';
 
+function loginout(loginoutEl: HTMLElement, nearConnection: NearConnection) {
+  console.log('login or out');
+  if (!nearConnection) return;
+  if (nearConnection.walletConnection.isSignedIn()) {
+    nearConnection.logout();
+    loginoutEl.innerHTML = 'Login to NEAR wallet';
+  } else {
+    nearConnection.login();
+    loginoutEl.innerHTML = 'Logout from NEAR wallet';
+  }
+}
+
+function initLoginLogout(nearConnection: NearConnection) {
+  const loginoutEl: HTMLElement = document.getElementById('loginout');
+  if (
+    nearConnection &&
+    nearConnection.walletConnection &&
+    nearConnection.walletConnection.isSignedIn()
+  ) {
+    loginoutEl.innerHTML = 'Logout from NEAR wallet';
+  } else {
+    loginoutEl.innerHTML = 'Login to NEAR wallet';
+  }
+  loginoutEl.addEventListener('click', () =>
+    loginout(loginoutEl, nearConnection)
+  );
+}
+
 export class Game {
   private loop: GameLoop;
   gameObjects: IGameObject[] = [];
@@ -26,6 +54,9 @@ export class Game {
     canvas.width = 400;
     canvas.height = 400;
     init(canvas);
+    this.nearConnection.initContract().then((res) => {
+      initLoginLogout(this.nearConnection);
+    });
     this.popup = new Popup(this.nearConnection);
     this.initGame(`level${this.currentLevel}`);
     initKeys();

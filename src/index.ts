@@ -7,6 +7,7 @@ function init() {
   let totalSupport = 0;
   const bodyEl: HTMLElement = document.getElementsByTagName('body')[0];
   const gameEl: HTMLCanvasElement = document.createElement('canvas');
+
   const levelDescriptionEl = document.createElement('div');
   const monetizationProgressEl = document.createElement('div');
   levelDescriptionEl.setAttribute('id', 'levelDescription');
@@ -17,6 +18,7 @@ function init() {
   bodyEl.appendChild(monetizationProgressEl);
   injectMonetizationTag();
   const nearConnection = new NearConnection();
+
   monetize.subscribe((res) => {
     if (res) {
       const detail: { amount: string; assetCode: string; assetScale: number } =

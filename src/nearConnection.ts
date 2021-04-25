@@ -1,4 +1,6 @@
 import { connect, Contract, keyStores, WalletConnection } from 'near-api-js';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { Observable } from 'rxjs/internal/Observable';
 import getConfig from './config';
 
 export class NearConnection {
@@ -6,6 +8,10 @@ export class NearConnection {
   contract: Contract;
   accountId: string;
   nearConfig = getConfig('development');
+  connectedBehaviour: BehaviorSubject<string> = new BehaviorSubject('');
+  connected = (): Observable<string> => {
+    return this.connectedBehaviour.asObservable();
+  };
   constructor() {}
 
   // Initialize contract & set global variables
@@ -32,6 +38,7 @@ export class NearConnection {
         changeMethods: ['setGreeting', 'setScore'],
       }
     );
+    this.connectedBehaviour.next('OK');
     return this.walletConnection;
   }
 
