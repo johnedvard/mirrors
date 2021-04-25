@@ -75,6 +75,34 @@ export class Game {
     this.initGame(`level${this.currentLevel}`);
     initKeys();
     initPointer();
+    bindKeys(
+      'm',
+      (e) => {
+        if (!this.loop.isStopped && !isLevelSelectorOpen()) {
+          this.loop.stop();
+          openLevelSelector()
+            .then((level: number) => {
+              this.currentLevel = level;
+              console.log('this.current level', this.currentLevel);
+              this.initGame(`level${level}`);
+            })
+            .catch((err) => {
+              this.loop.start();
+            });
+        } else {
+          closePopup();
+        }
+      },
+      'keyup'
+    );
+    bindKeys(
+      'r',
+      (e) => {
+        this.restartLevel();
+      },
+      'keyup'
+    );
+
     on('levelcomplete', this.levelComplete);
     on('gamecomplete', this.gameComplete);
   }
@@ -99,30 +127,8 @@ export class Game {
         this.gameObjects.push(new Player(this, p.x, p.y));
       });
 
-      bindKeys(
-        'm',
-        (e) => {
-          if (!this.loop.isStopped && !isLevelSelectorOpen()) {
-            this.loop.stop();
-            openLevelSelector()
-              .then((level: string) => {
-                this.initGame(level);
-              })
-              .catch((err) => {
-                this.loop.start();
-              });
-          } else {
-            closePopup();
-          }
-        },
-        'keyup'
-      );
-
       this.loop = GameLoop({
         update: (dt: number) => {
-          if (keyPressed('r')) {
-            this.restartLevel();
-          }
           this.gameObjects.forEach((go) => go.update(dt));
         },
         render: (dt: number) => {
@@ -153,8 +159,8 @@ export class Game {
   };
 
   restartLevel = () => {
-    const currentLevel = `level${this.currentLevel}`;
-    this.initGame(currentLevel);
+    this.loop.stop();
+    this.initGame(`level${this.currentLevel}`);
   };
 
   gameComplete = () => {

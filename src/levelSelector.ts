@@ -1,13 +1,10 @@
-import { Game } from './game';
-import { loadLevel } from './levelEngine';
-
 const numLevels = 5;
 
 const levelSelectorEl = document.getElementById('levelSelector');
 const children: { btn: HTMLElement; evtLister: EventListener }[] = [];
 let isOpen = false;
 let rejectPromise: any;
-const selectLevel = (resolve: any, level: string) => {
+const selectLevel = (resolve: any, level: number) => {
   resolve(level);
   cleanup();
 };
@@ -41,10 +38,9 @@ export const openLevelSelector = () => {
     levelSelectorEl.classList.remove('fade-out');
     for (let i = 1; i < numLevels + 1; i++) {
       const btn = document.createElement('button');
-      const level = `level${i}`;
       btn.innerHTML = `Play level ${i}`;
       const evtListener = btn.addEventListener('click', () =>
-        selectLevel(resolve, level)
+        selectLevel(resolve, i)
       );
       children.push([{ btn, evtListener }]);
       levelSelectorEl.appendChild(btn);
